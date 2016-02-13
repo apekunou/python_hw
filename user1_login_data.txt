@@ -1,0 +1,1 @@
+{"login": "user1_login", "counter": null, "achivments": ["lucky_mfk"], "name": "user1_name", "currencies": {"USD": 500}}

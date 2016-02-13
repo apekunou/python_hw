@@ -1,0 +1,1 @@
+{"login": "user2_login", "counter": null, "achivments": ["looser"], "name": "user2_name", "currencies": {"USD": -100}}

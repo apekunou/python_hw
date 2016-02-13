@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h4>Фильтрация по E-mail</h4>
+    <form action="/players/" method="get">
+        {{ form }}
+    <input type="submit" value="Submit" />
+    </form>
+
+    <table border="1">
+        <caption>Таблица игроков</caption>
+        <tr>
+            <th>Имя</th>
+            <th>E-mail</th>
+            <th>Опыт</th>
+            <th>Пароль</th>
+            <th>Время создания</th>
+            <th>Время изменения</th>
+            <th>Ссылка на изменение опыта</th>
+        </tr>
+        {% for player in players %}
+            <tr>
+                <td>{{ player.nickname }}</td>
+                <td>{{ player.email}}</td>
+                <td>{{ player.xp }}</td>
+                <td> **** </td>
+                <td>{{ player.created|date:"D d M Y"}} {{ player.created|time:"H:i:s" }}</td>
+                <td>{{ player.updated|date:"D d M Y"}} {{ player.created|time:"H:i:s" }}</td>
+                <td><a href="/players/change_exp/?player_nickname={{ player.nickname }}">Change Exp</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if players.has_previous %}
+                <a href="?page={{ players.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ players.number }} of {{ players.paginator.num_pages }}.
+            </span>
+
+            {% if players.has_next %}
+                <a href="?page={{ players.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

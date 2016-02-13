@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Django adminka</title>
+        <style>
+        ul.hr {
+            margin: 0;
+            padding: 4px;
+            }
+        ul.hr li {
+            display: inline;
+            margin-right: 5px;
+            padding: 3px;
+            }
+        </style>
+    </head>
+<body>
+    <ul class = "hr">
+        <li><a href="/players">Players</a></li>
+        <li><a href="/admin/">Adminka</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+
+    {% block content %}
+
+    {% endblock %}
+
+</body>
