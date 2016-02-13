@@ -48,7 +48,7 @@ class Player(object):
             self.psw = data[3]
             self.ban = data[4]
         else:
-            print('No data loaded from db')
+            print('No player data loaded from db')
 
 
     def save_to_db(self):

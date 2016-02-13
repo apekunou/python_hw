@@ -108,7 +108,6 @@ class Money(object):
         "player_id": self.player_id,
         "curr": self.curr,
         }
-
         sql_query_money = 'SELECT `amount` FROM `money` WHERE `player_id` = (%(player_id)s) ' \
                                                          'AND `curr` = (%(curr)s);'
 
