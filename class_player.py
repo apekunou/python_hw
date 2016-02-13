@@ -14,15 +14,46 @@ class Player(object):
         self.ban = ban
 
     def get_id(self):
-        pass
+        cur = db.con.cursor()
+
+        sql_query_login = 'SELECT `id` FROM `player` WHERE login = (%(login)s);'
+
+        sql_login_data = {
+        "login": self.login,
+        }
+
+        cur.execute(sql_query_login, sql_login_data)
+        data = cur.fetchone()
+
+        if data:
+            self.id = int(data[0])
+        else:
+            print('No player id data loaded from db')
 
     def load_from_db(self):
-        sql_query_stat = 'SELECT event_type, event_data FROM log_game_events WHERE created BETWEEN (%s) AND (%s) AND event_type IN (%s,%s,%s,%s)'
-
         cur = db.con.cursor()
-        #cur.execute(sql_query_stat, (datetime_input_start, datetime_input_end, lv_wsg_event_id, lv_wpg_event_id, lv_psg_event_id, lv_ppg_event_id))
+
+        sql_query_login = 'SELECT `id`, `login`, `name`, `psw`, `ban` FROM `player` WHERE login = (%(login)s);'
+
+        sql_login_data = {
+        "login": self.login,
+        }
+
+        cur.execute(sql_query_login, sql_login_data)
+        data = cur.fetchone()
+
+        if data:
+            self.id = int(data[0])
+            self.name = data[2]
+            self.psw = data[3]
+            self.ban = data[4]
+        else:
+            print('No data loaded from db')
+
 
     def save_to_db(self):
+
+        cur = db.con.cursor()
 
         curr_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -35,8 +66,23 @@ class Player(object):
         "updated": curr_datetime
         }
 
-        sql_insert_player = 'INSERT INTO `player` (`login`, `name`, `psw`, `ban`, `created`, `updated`)' \
+        sql_query_login = 'SELECT `id`, `login`, `created` FROM `player` WHERE login = (%(login)s);'
+
+        sql_login_data = {
+        "login": self.login,
+        }
+
+        cur.execute(sql_query_login, sql_login_data)
+        data = cur.fetchone()
+
+        if data:
+            sql_player_data["created"] = data[1]
+            sql_player_data["id"] = int(data[0])
+            sql_insert_player = 'UPDATE `player` SET `name` = %(name)s, `psw` = %(psw)s, `ban` = %(ban)s, `updated` = %(updated)s' \
+                                ' WHERE `id` = %(id)s ;'
+        else:
+            sql_insert_player = 'INSERT INTO `player` (`login`, `name`, `psw`, `ban`, `created`, `updated`)' \
                           ' VALUES (%(login)s, %(name)s, %(psw)s, %(ban)s, %(created)s, %(updated)s);'
-        cur = db.con.cursor()
+
         cur.execute(sql_insert_player, sql_player_data)
         db.con.commit()
