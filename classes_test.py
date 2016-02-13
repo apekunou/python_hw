@@ -1,8 +1,12 @@
-
+import time
+import datetime
 from class_player import Player
 from class_session import Session
 from class_money import Money
 from class_player_admin import Player_admin
+
+curr_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+print(curr_time)
 
 player1 = Player('a1@b', 'name1', 'psw_2')
 print(player1.login)
@@ -42,7 +46,9 @@ print('loaded from db password of player {} login is {}'.format(admin2.name, adm
 admin2.ban_player(player2)
 print('player {} is banned {}'.format(player2.name, player2.ban))
 
-session2 = Session('a1@b')
-session2.load_from_db()
-print('session 2 time finish is {}'.format(session2.time_finish))
+session2 = Session('a1@b', curr_time)
+session2.save_to_db()
+
+
+
 
