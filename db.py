@@ -1,2 +1,2 @@
 import MySQLdb
-connection = MySQLdb.connect('localhost', 'root', 'root', 'game_data')
+con = MySQLdb.connect('localhost', 'root', 'root', 'game_db')
